@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style>
+  
+body {
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow:hidden;
+}
+
+    #hit {
+      height: 150px;
+      width: 300px;
+      color: grey;
+      
+      font-size: 40px;
+        text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0
+    }
+    
+    #picture {
+      height: 150px;
+      width: 150px;
+      position: absolute;
+      left: 9%;
+      top: 50%;
+    }
+    
+    #name {
+      color: rosybrown;
+      font-size: 60px;
+      top: 10%;
+      left: 3%;
+      
+        text-shadow: -1px -1px 0 black, 10px -1px 0 black, -1px 10px 0 black, 10px 1px 0 black;
+    
+    }
+      #points {
+    color: green;
+    font-size: 60px;
+    top: 3%;
+    left: 10%;
+position: absolute;
+  }
+        #movelist {
+      color: red;
+      font-size: 60px;
+      top: 10%;
+      left: 30%;
+
+      text-shadow: -1px -1px 0 black, 10px -1px 0 black, -1px 10px 0 black, 10px 1px 0 black;
+
+    }
+    
+    #attack {
+      color: red;
+      font-size: 90px;
+        text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+        visibility: hidden;
+    }
+    
+    #hp {
+      color: grey;
+      font-size: 90px;
+      position: relative;
+      top: 10%;
+      left: 65%;
+      z-index: 9999;
+        text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 red;
+        visibility: hidden;
+    }
+    
+    #status {
+      color: white;
+      font-size: 20px;
+      position: absolute;
+      top: 50px;
+      right: 50px;
+    }
+    
+    .biography {
+      display: none;
+      color: grey;
+      font-size: 20px;
+      margin-top: 10px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      z-index: 9999;
+    }
+    
+      
+  
+  
+
+@keyframes flashing {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#popup {
+  z-index: 9999;
+  color: grey;
+  font-size: 10px;
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  opacity: 0%
+   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  transform: translateX(-50%);
+  display: block; /* Set initial display to block */
+  animation: flashing 1s infinite;
+}
+
+ #ki {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            background-size: cover;
+            background-position: center;
+            background-color: clear;
+            color: black; /* Text color */
+            padding: 50px;
+            text-align: center;
+            border-radius: 10px;
+            opacity: 80%;
+        }
+        #green { font-size: 40px;
+            }
+              #red { font-size: 30px;
+              color:red;
+            }
+        #block {
+  position: absolute;
+  top: 10%;
+left: 3%;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  
+  z-index: 9999;
+  display: none;
+  opacity: 30%;
+}
+
+
+ #wow {
+   display: none;
+   /* You can add more styling here for the popup */
+   position: fixed;
+top: 50%;
+left: 20%;
+color: palegoldenrod;
+}
+   
+       
+
+  </style>
+</head>
+<body>
+  <h1 id="name" alt="grimlin">Roi</h1>
+  <h3 id="hp">930</h3>
+  <div id="status"></div>
+  <div id="biography" class="biography">
+    <p>
+      
+    </p>
+  </div>
+  
+   <div id="ki">
+  <p id="green"
+  onclick="generateRandomNumber()">ここに表示されるテキスト</p>
+  <p id="red"onclick="useSpecificNumberPartTwo()">scratch</p>
+  <p id="blue"onclick="executeRandomAttack()">burp</p>
+  
+<button id="activateButton">Activate Listener</button>
+<button id="deactivateButton">Deactivate Listener</button>
+</div>
+  <p4 id="popup"></p4>
+
+   <div id="movelist">
+     <p6>動かす</p>
+   </div>
+   <div id="block"></div>
+  <img id="picture"   src="https://public-files.gumroad.com/7ytq3smow36nznzb9bwhsv5dr76z" alt="monster">
+  <h2 id="attack">攻撃</h2>
+  <p id="points">50</p>
+  <p4 id="hit" > 
+  
+
+  <div id="wow">fear is in the eyes</div>
+  <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  function checkPointsAndShowBlock() {
+    // Get the points element
+    var pointsElement = document.getElementById('points');
+    if (!pointsElement) {
+      console.error('Points element not found');
+      return;
+    }
+    
+    // Get the block element
+    var block = document.getElementById('block');
+    if (!block) {
+      console.error('Block element not found');
+      return;
+    }
+    
+    // Convert the current points to a number
+    var currentPoints = parseInt(pointsElement.textContent, 10);
+    if (isNaN(currentPoints)) {
+      console.error('Points value is not a valid number');
+      return;
+    }
+
+    // Check if points are zero or less
+    if (currentPoints <= 0) {
+      // Show the block element
+      block.style.display = 'block';
+      console.log('Block should show now'); // Log to confirm the condition is met
+    } else {
+      block.style.display = 'none'; // Ensure the block is hidden if points are above zero
+      console.log('Points are above zero, block hidden');
+    }
+  }
+
+  // Listen for a 'pointsChanged' event
+  window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+      console.log('Message received from non-parent source');
+      return;
+    } else {
+      // Check the message content
+      if (typeof event.data === 'object' && event.data.type === 'pointsChanged') {
+        console.log('Points changed message received');
+        // Delay the execution of the checkPointsAndShowBlock function slightly to ensure DOM update
+        setTimeout(function() {
+          checkPointsAndShowBlock(); // Check points and show block if needed
+        }, 100); // 100 milliseconds delay before checking points
+      } else {
+        console.log('Unexpected message received:', event.data);
+      }
+    }
+  });
+
+// Function to subtract points
+function subtractPoints(amount) {
+  var pointsElement = document.getElementById('points');
+
+  if (!pointsElement) {
+    console.error('Cannot subtract points: points element not found');
+    return;
+  }
+
+  var currentPoints = parseInt(pointsElement.textContent, 10);
+
+  if (isNaN(currentPoints)) {
+    console.error('Cannot subtract points: current points is not a valid number');
+    return;
+  }
+
+  var newPoints = currentPoints - amount;
+  newPoints = Math.max(newPoints, 0); // Ensure points don't go below 0
+
+  pointsElement.textContent = newPoints;
+  console.log('Points subtracted. New points:', newPoints);
+}
+
+
+});
+
+
+
+
+// Function to check points and potentially show a block
+function checkPointsAndShowBlock() {
+  // Implementation of checkPointsAndShowBlock goes here
+  console.log("Checking points and potentially showing a block");
+}
+
+// Function to add points
+function addPoints(amount) {
+  var pointsElement = document.getElementById('points');
+  if (!pointsElement) {
+    console.error('Cannot add points: points element not found');
+    return;
+  }
+
+  var currentPoints = parseInt(pointsElement.textContent, 10);
+  if (isNaN(currentPoints)) {
+    console.error('Cannot add points: current points is not a valid number');
+    return;
+  }
+
+  var newPoints = currentPoints + amount;
+  pointsElement.textContent = newPoints;
+  console.log('Points added. New points:', newPoints);
+  checkPointsAndShowBlock();
+}
+
+
+
+
+var ki = document.getElementById('ki');
+document.querySelector('#movelist p6').addEventListener('click', function() {
+  if (ki.style.display === 'block') {
+    ki.style.display = 'none';
+  } else {
+    ki.style.display = 'block';
+  }
+});
+
+var biographyVisible = false;
+var speechSynthesis = window.speechSynthesis;
+
+var attackSoundEquals0 = new Audio("https://www.myinstants.com/media/sounds/toasty_tfCWsU6.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values belo
+
+var punch = new Audio(" https://www.myinstants.com/media/sounds/burp-1.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values belo
+
+var kick = new Audio("https://www.myinstants.com/media/sounds/electricity_us849kj.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values belo
+
+var elbow = new Audio("https://www.myinstants.com/media/sounds/missing-slash.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values belo
+
+var orb = new Audio("https://www.myinstants.com/media/sounds/electricity-charge-sound-effect.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values belo
+
+var beam = new Audio(" https://www.myinstants.com/media/sounds/blue-rose-sword-skill.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values belo
+
+var wave = new Audio("https://www.myinstants.com/media/sounds/lightning-impact.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values belo
+
+
+
+
+var attackSoundBelow100 = new Audio("https://www.myinstants.com/media/sounds/dbz-teleport.mp3"); // Replace "path/to/below100-sound.wav" with the actual path to the sound file for attack values below 100
+
+var attackSoundAbove100 = new Audio("Jgiwght.mp3"); // Replace "path/to/above100-sound.wav" with the actual path to the sound file for attack values 100 and above
+
+
+
+
+
+
+
+// Add an event listener to listen for messages
+window.addEventListener('message', function(event) {
+  // Check if the message is from the parent
+  if (event.source !== window.parent) {
+    // Do something if the message is not from the parent
+    return;
+  } else {
+    // Check the message content
+    if (typeof event.data === 'string' && event.data === 'ouch!') {
+      // Delay the execution by 2.5 seconds
+      setTimeout(function() {
+        var popupElement = showPopUp();
+      }, 800);
+    }
+  }
+});
+
+
+// Add an event listener to listen for messages
+window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+        // Do something if the message is not from the parent
+        return;
+    } else {
+        // Check the message content
+        if (typeof event.data === 'string' && event.data === 'hurt') {
+            // Delay the execution of the showImage function by 2.5 seconds
+            setTimeout(function() {
+                showImage('https://public-files.gumroad.com/xbfcmyzgw5zsl7x7vkvi9r41f62m', 1000); // Display 'ouch.jpg' from the URL for 3 seconds
+            }, 1); // 2.5 seconds delay before showing the image
+        }
+    }
+});
+
+
+
+// Add an event listener to listen for messages
+window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+        // Do something if the message is not from the parent
+        return;
+    } else {
+        // Check the message content
+        if (typeof event.data === 'string' && event.data === 'miss') {
+            // Delay the execution of the showImage function by 2.5 seconds
+            setTimeout(function() {
+                showImage('https://public-files.gumroad.com/d1zd6yq12hv1mi71gmv9jklqim87', 1000); // Display 'ouch.jpg' from the URL for 3 seconds
+            }, 1); // 2.5 seconds delay before showing the image
+        }
+    }
+});
+
+
+// Event listener for 'pain'
+window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+        // Do something if the message is not from the parent
+        return;
+    } else {
+        // Check the message content
+        if (typeof event.data === 'string' && event.data === 'pain') {
+            playerAlive = true; // Set player status to false
+            setTimeout(function() {
+                // Log the message
+                console.log("please don’t finish me");
+subtractPoints(10);
+toggleWow()
+                // Optionally, remove the message after a few seconds
+                setTimeout(function() {
+                }, 5000); // Remove after 5 seconds
+            }, 100); // 0.1 seconds delay before showing the message
+        }
+    }
+});
+
+
+
+// Event listener for 'Poisoned'
+window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+        // Do something if the message is not from the parent
+        return;
+    } else {
+        // Check the message content
+        if (typeof event.data === 'string' && event.data === 'Poisoned') {
+            playerAlive = false; // Set player status to false
+            setTimeout(function() {
+                // Log the message
+              
+                // Optionally, remove the message after a few seconds
+                setTimeout(function() {
+                }, 5000); // Remove after 5 seconds
+                drainHp(message);
+            }, 100); // 0.1 seconds delay before showing the message
+        }
+    }
+});
+
+// Event listener for 'Burned'
+window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+        // Do something if the message is not from the parent
+        return;
+    } else {
+        // Check the message content
+        if (typeof event.data === 'string' && event.data === 'Burned') {
+            playerAlive = false; // Set player status to false
+            setTimeout(function() {
+                showImage('https://public-files.gumroad.com/rzewjzyceotbc7qw1onhq7x6oeie', 19000); // Display 'ouch.jpg' from the URL for 3 seconds
+            }, 100); // 2.5 seconds delay before showing the image
+        }
+    }
+});
+
+// Event listener for 'Scared'
+window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+        // Do something if the message is not from the parent
+        return;
+    } else {
+        // Check the message content
+        if (typeof event.data === 'string' && event.data === 'Scared') {
+            playerAlive = false; // Set player status to false
+            setTimeout(function() {
+                showImage('https://public-files.gumroad.com/rzewjzyceotbc7qw1onhq7x6oeie', 19000); // Display 'ouch.jpg' from the URL for 3 seconds
+            }, 100); // 2.5 seconds delay before showing the image
+        }
+    }
+});
+
+
+// Add an event listener to listen for messages
+window.addEventListener('message', function(event) {
+    // Check if the message is from the parent
+    if (event.source !== window.parent) {
+        // Do something if the message is not from the parent
+        return;
+    } else {
+        // Check the message content
+        
+if (typeof event.data === 'string' && event.data === 'DOA') {
+    playerAlive = false; // Set player status to false
+    setTimeout(function() {
+        showImage('https://public-files.gumroad.com/rzewjzyceotbc7qw1onhq7x6oeie', 19000); // Display 'ouch.jpg' from the URL for 3 seconds
+    }, 100); // 2.5 seconds delay before showing the image
+}
+
+    }
+});
+
+  
+  
+
+
+
+
+
+
+
+var attackValue = null;
+
+let firstAttack = null;
+
+
+
+
+  
+var playerAlive = true; // Initialize player status
+
+
+
+function showMessage() {
+  const messageDiv = document.createElement('div');
+  messageDiv.id = 'wow';
+  messageDiv.innerText = 'fear is in the eyes';
+  document.body.appendChild(messageDiv);
+}
+
+
+  
+
+
+  
+  
+  
+  function showPopUp(attackValue) {
+    var popupElement = document.getElementById("popup");
+  
+    if (attackValue >= 1 && attackValue <= 150) {
+      var imageUrls = [0];
+      var duration = 260; // Default duration for image display
+  
+  var chargeAnimation = [
+                    "https://public-files.gumroad.com/xw9ah06t8zlirtbaogf5dk28su19",
+                    "https://public-files.gumroad.com/3lys87uamwgl9l7hgu0xtg1dveoi",
+                    "https://public-files.gumroad.com/tpr9pow142otuw8556dq7zejg8xo",
+                         "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",
+                    
+                ];
+                
+                
+                
+               var hurtAnimation = [
+                    "https://public-files.gumroad.com/xbfcmyzgw5zsl7x7vkvi9r41f62m",
+                    "https://public-files.gumroad.com/z6j2fc0wr61sqfdwg35rjubposo7",
+                    "https://public-files.gumroad.com/xr1yx5xto1t5kgd49vwv0noq7srn",
+  
+                ];
+                 
+                
+                var burpAnimation = [
+                    "https://public-files.gumroad.com/b4gwxkzpw1i215p2lvyk5wwiwoog",
+                    "https://public-files.gumroad.com/4rhbzk26bgguhoiumrmy9ln9z90f",
+                    "https://public-files.gumroad.com/bupmqbmxne2f1g2toyvr65tv7rit",
+                     "https://public-files.gumroad.com/2kcj83l7gv6jirgg3xttvnfedvst","https://public-files.gumroad.com/3tpkp1rylyqiivcztakskekohd5y","https://public-files.gumroad.com/r2orzlwbrfa6yl07tx7vehqnxdx2",
+  
+                ];
+                 
+                
+                
+                var pulseAnimation = [
+                 "https://public-files.gumroad.com/51wxp16beuz6vf8jjp9khq7asvxy",
+  "https://public-files.gumroad.com/v8x6m48rkpigp50kifskly58rsz2",
+  "https://public-files.gumroad.com/4c6zkh59f3lw6ud162uxpcpm5fs1",
+]
+                              
+                              
+                              var fireAnimation = [
+                                                 "https://public-files.gumroad.com/6t7mj9o66ubklzgk693b0uqz2am4",
+ "https://public-files.gumroad.com/etzf96fv80p3r2qvofxx6qtdu9uy",
+ "https://public-files.gumroad.com/efu6dyfbylmytk2be4tljn3gossl",
+ "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",   ];
+                                            
+                                            var clawAnimation = [
+                                                            "https://public-files.gumroad.com/xw9ah06t8zlirtbaogf5dk28su19",
+  "https://public-files.gumroad.com/3lys87uamwgl9l7hgu0xtg1dveoi",
+  "https://public-files.gumroad.com/tpr9pow142otuw8556dq7zejg8xo",
+  "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",         
+                                                            ];
+var fireIntervalId;
+var fireTimeoutId;
+
+
+var chargeIntervalId;
+var chargeTimeoutId;
+
+var pulseIntervalId;
+var pulseTimeoutId;
+
+var hurtIntervalId;
+var hurtTimeoutId;
+
+
+var burpIntervalId;
+var burpTimeoutId;
+
+var clawIntervalId;
+var clawTimeoutId;
+
+// Function to start the fire animation
+function startFireAnimation() {
+    clearInterval(fireIntervalId); 
+    clearTimeout(fireTimeoutId);
+    
+    var index = 0;
+    var img = document.getElementById("picture"); // Replace "fireAnimationElement" with the ID of your HTML element
+    var mainImageUrls = [
+        "https://public-files.gumroad.com/efu6dyfbylmytk2be4tljn3gossl",
+        "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",
+        
+    ]; // Add the URLs for the main images in this array
+    
+    var mainImageIndex = 0; // Initialize index for main image URLs
+    
+    fireIntervalId = setInterval(() => {
+        img.src = fireAnimation[index];
+        index = (index + 1) % fireAnimation.length;
+    }, 62); // Adjust the time in milliseconds to control the speed of the animation
+
+    // Stop the animation after 500 milliseconds (half a second)
+    fireTimeoutId = setTimeout(() => {
+        clearInterval(fireIntervalId);
+        
+        // Animate through the main image URLs
+        
+setInterval(() => {
+    if (playerAlive) {
+        img.src = mainImageUrls[mainImageIndex];
+        mainImageIndex = (mainImageIndex + 1) % mainImageUrls.length;
+    }
+}, 900); // Adjust the time in milliseconds to control the speed of the main image animation
+
+    }, 785);
+}
+
+
+// Function to start the charge animation
+function startChargeAnimation() {
+    clearInterval(chargeIntervalId); 
+    clearTimeout(chargeTimeoutId);
+    
+    var index = 0;
+    var img = document.getElementById("picture"); // Replace "chargeAnimationElement" with the ID of your HTML element
+
+    chargeIntervalId = setInterval(() => {
+        img.src = chargeAnimation[index];
+        index = (index + 1) % chargeAnimation.length;
+    }, 50); // Adjust the time in milliseconds to control the speed of the animation
+
+    // Stop the animation after 500 milliseconds (half a second)
+    chargeTimeoutId = setTimeout(() => {
+        clearInterval(chargeIntervalId);
+    }, 450);
+}
+
+// Function to start the pulse animation
+function startPulseAnimation() {
+  clearInterval(pulseIntervalId);
+  clearTimeout(pulseTimeoutId);
+
+  var index = 0;
+  var img = document.getElementById("picture"); // Replace "fireAnimationElement" with the ID of your HTML element
+  var mainImageUrls = [
+         "https://public-files.gumroad.com/efu6dyfbylmytk2be4tljn3gossl",
+ "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",
+
+    ]; // Add the URLs for the main images in this array
+
+  var mainImageIndex = 0; // Initialize index for main image URLs
+
+  pulseIntervalId = setInterval(() => {
+    img.src = pulseAnimation[index];
+    index = (index + 1) % pulseAnimation.length;
+  }, 62); // Adjust the time in milliseconds to control the speed of the animation
+
+  // Stop the animation after 500 milliseconds (half a second)
+  pulseTimeoutId = setTimeout(() => {
+    clearInterval(pulseIntervalId);
+
+    // Animate through the main image URLs
+
+    setInterval(() => {
+      if (playerAlive) {
+        img.src = mainImageUrls[mainImageIndex];
+        mainImageIndex = (mainImageIndex + 1) % mainImageUrls.length;
+      }
+    }, 900); // Adjust the time in milliseconds to control the speed of the main image animation
+
+  }, 785);
+}
+
+
+// Function to start the hurt animation
+function startHurtAnimation() {
+    clearInterval(hurtIntervalId);
+    clearTimeout(hurtTimeoutId);
+
+    var index = 0;
+    var img = document.getElementById("picture"); // Replace "picture" with the ID of your HTML element
+    var mainImageUrls = [
+      "https://public-files.gumroad.com/efu6dyfbylmytk2be4tljn3gossl",
+ "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",
+    ]; // Add the URLs for the main images in this array
+
+    var mainImageIndex = 0; // Initialize index for main image URLs
+
+    hurtIntervalId = setInterval(function() {
+        img.src = hurtAnimation[index];
+        index = (index + 1) % hurtAnimation.length;
+    }, 62); // Adjust the time in milliseconds to control the speed of the animation
+
+    // Stop the animation after 785 milliseconds
+    hurtTimeoutId = setTimeout(function() {
+        clearInterval(hurtIntervalId);
+
+        // Animate through the main image URLs
+        setInterval(function() {
+            if (playerAlive) {
+                img.src = mainImageUrls[mainImageIndex];
+                mainImageIndex = (mainImageIndex + 1) % mainImageUrls.length;
+            }
+        }, 900); // Adjust the time in milliseconds to control the speed of the main image animation
+
+    }, 785);
+}
+
+
+
+// Function to start the burp animation
+function startBurpAnimation() {
+    clearInterval(burpIntervalId);
+    clearTimeout(burpTimeoutId);
+
+    var index = 0;
+    var img = document.getElementById("picture"); // Replace "picture" with the ID of your HTML element
+    var mainImageUrls = [
+         "https://public-files.gumroad.com/efu6dyfbylmytk2be4tljn3gossl",
+ "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",
+    ]; // Add the URLs for the main images in this array
+
+    var mainImageIndex = 0; // Initialize index for main image URLs
+
+    burpIntervalId = setInterval(function() {
+        img.src = burpAnimation[index];
+        index = (index + 1) % burpAnimation.length;
+    }, 62); // Adjust the time in milliseconds to control the speed of the animation
+
+    // Stop the animation after 785 milliseconds
+    burpTimeoutId = setTimeout(function() {
+        clearInterval(burpIntervalId);
+
+        // Animate through the main image URLs
+        setInterval(function() {
+            if (playerAlive) {
+                img.src = mainImageUrls[mainImageIndex];
+                mainImageIndex = (mainImageIndex + 1) % mainImageUrls.length;
+            }
+            
+        }, 900); // Adjust the time in milliseconds to control the speed of the main image animation
+
+    }, 785);
+    
+}
+
+
+// Function to start the claw animation
+function startClawAnimation() {
+    clearInterval(clawIntervalId);
+    clearTimeout(clawTimeoutId);
+
+    var index = 0;
+    var img = document.getElementById("picture"); // Replace "picture" with the ID of your HTML element
+    var mainImageUrls = [
+       "https://public-files.gumroad.com/efu6dyfbylmytk2be4tljn3gossl",
+ "https://public-files.gumroad.com/jedwbrzfooosgjamb8dwzrffilon",
+    ]; // Add the URLs for the main images in this array
+
+    var mainImageIndex = 0; // Initialize index for main image URLs
+
+    clawIntervalId = setInterval(function() {
+        img.src = clawAnimation[index];
+        index = (index + 1) % clawAnimation.length;
+    }, 62); // Adjust the time in milliseconds to control the speed of the animation
+
+    // Stop the animation after 785 milliseconds
+    clawTimeoutId = setTimeout(function() {
+        clearInterval(clawIntervalId);
+
+        // Animate through the main image URLs
+        setInterval(function() {
+            if (playerAlive) {
+                img.src = mainImageUrls[mainImageIndex];
+                mainImageIndex = (mainImageIndex + 1) % mainImageUrls.length;
+            }
+        }, 900); // Adjust the time in milliseconds to control the speed of the main image animation
+
+    }, 785);
+}
+
+
+// Your existing code with fire animation incorporated
+
+
+
+// Your existing code
+if (attackValue >= 1 && attackValue <= 10) {
+    popupElement.textContent = "げっぷ";
+    startBurpAnimation(); // Start the fire animation
+    // Removed sound play functionality
+} else if (attackValue >= 11 && attackValue <= 30) {
+    popupElement.textContent = "klô";
+    startPulseAnimation(); // Stop the fire animation
+    // Removed sound play functionality
+} else if (attackValue >= 31 && attackValue <= 60) {
+    popupElement.textContent = "klô";
+    startBurpAnimation();
+    // Removed sound play functionality
+} else if (attackValue >= 61 && attackValue <= 80) {
+    popupElement.textContent = "Denki ";
+    startChargeAnimation();
+    // Removed sound play functionality
+} else if (attackValue >= 81 && attackValue <= 100) {
+    popupElement.textContent = "電気 ";
+    startPulseAnimation();
+    // Removed sound play functionality
+} else if (attackValue >= 101 && attackValue <= 150) {
+    popupElement.textContent = "əˈlektrik ";
+    startFireAnimation();
+    // Removed sound play functionality
+}
+}}
+
+function drainHp() {
+  let count = 0; // Counter to track how many times the message has been sent
+
+  // Start sending the "hurt" message every 5 seconds
+  const messageInterval = setInterval(() => {
+    // Send the "hurt" message to the parent window
+    window.parent.postMessage('Hurt',"*"); // Replace "*" with a specific origin for security
+
+    console.log("Hurt message sent via postMessage!"); // Log for debugging
+    count++;
+
+    // Stop after 15 seconds (3 messages)
+    if (count === 3) {
+      clearInterval(messageInterval); // Stop the interval
+      console.log("Stopped sending hurt messages.");
+    }
+  }, 2500); // Send message every 5 seconds
+}
+
+
+/**
+ * Sends the "poisoned" message to the parent window.
+ */
+function sendPoisonedMessage() {
+    // Define the poisoned message
+    const poisoned = "This is a malicious or altered message"; // Replace with your intended message
+
+    // Send the message to the parent window
+    window.parent.postMessage(poisoned, "*"); // Replace "*" with a specific origin for security
+
+    // Log the message before sending
+    console.log("Sending poisoned message to parent:", poisoned);
+}
+
+
+
+
+function generateRandomNumber() {
+  console.log("Entering generateRandomNumber");
+
+  // Check if points are already at zero before proceeding
+  if (logPointsZero()) {
+    console.log("Attack disabled because points are already at zero.");
+    var attackValue = 0;
+    // Update the attack display
+    var attackElement = document.getElementById("attack");
+    if (attackElement) {
+      attackElement.textContent = "攻撃: " + attackValue;
+    }
+    console.log("攻撃: " + attackValue);
+
+    // Log the attack
+    var logElement = document.getElementById("log");
+    if (logElement) {
+      var attackLogElement = document.createElement("p");
+      attackLogElement.textContent = "攻撃: " + attackValue;
+      logElement.appendChild(attackLogElement);
+    }
+
+    // Send the attack value to the parent window
+    window.parent.postMessage(attackValue, "*");
+    console.log("Sent attack value:", attackValue);
+
+    console.log("Exiting generateRandomNumber due to points being zero");
+    return;
+  }
+
+  // Generate a random number
+  var randomNumber = Math.floor(Math.random() * 150);
+  var attackElement = document.getElementById("attack");
+  console.log("Attack element found?", attackElement !== null);
+
+  if (attackElement) {
+    attackElement.textContent = "攻撃: " + randomNumber;
+  }
+  console.log("攻撃: " + randomNumber);
+
+  var logElement = document.getElementById("log");
+  console.log("Log element found?", logElement !== null);
+
+  if (logElement) {
+    var attackLogElement = document.createElement("p");
+    attackLogElement.textContent = "攻撃: " + randomNumber;
+    logElement.appendChild(attackLogElement);
+    console.log("Log entry added to DOM");
+  }
+
+  console.log("Sent attack value:", randomNumber);
+
+  // Send the attack value to the parent window
+  window.parent.postMessage(randomNumber, "*");
+
+  // Check if attack value is over 100 and send "pain" message
+  if (randomNumber > 100) {
+    window.parent.postMessage('pain', "*");
+    console.log("Sent pain message due to attack value:", randomNumber);
+  }
+
+  try {
+    showPopUp(randomNumber);
+    console.log("showPopUp called successfully");
+  } catch (error) {
+    console.error("Error in showPopUp:", error);
+  }
+
+  try {
+    subtractPoints(randomNumber);
+    console.log("subtractPoints called successfully");
+  } catch (error) {
+    console.error("Error in subtractPoints:", error);
+  }
+
+  console.log("Exiting generateRandomNumber");
+}
+
+
+function executeRandomAttack() {
+  // Generate a random number between 1 and 100
+  var attackValue = Math.floor(Math.random() * 10) + 1;
+
+  // Update the attack display
+  document.getElementById("attack").textContent = "攻撃: " + attackValue;
+  console.log("攻撃: " + attackValue);
+
+  // Log the attack
+  var logElement = document.getElementById("log");
+  if (logElement) {
+    var attackLogElement = document.createElement("p");
+    attackLogElement.textContent = "攻撃: " + attackValue;
+    logElement.appendChild(attackLogElement);
+  }
+
+  // Send the attack value to the parent window
+  window.parent.postMessage(attackValue, "*");
+  console.log("Sent attack value:", attackValue);
+
+  // Check if attack value is over 100 and send "pain" message
+  if (attackValue < 3 ) {
+    window.parent.postMessage('poisoned', "*");
+    console.log("Sent pain message due to attack value:", attackValue);
+  }
+
+  try {
+    showPopUp(attackValue);
+    console.log("showPopUp called successfully");
+  } catch (error) {
+    console.error("Error in showPopUp:", error);
+  }
+
+  try {
+    subtractPoints(8, );
+    console.log("subtractPoints called successfully");
+  } catch (error) {
+    console.error("Error in subtractPoints:", error);
+  }
+
+  console.log("Exiting generateRandomNumber");
+}
+
+
+// Function to subtract points
+function subtractPoints(amount) {
+  // Get the points element
+  var pointsElement = document.getElementById('points');
+
+  // Convert the current points to a number
+  var currentPoints = parseInt(pointsElement.textContent, 10);
+
+  // Subtract the specified amount
+  var newPoints = currentPoints - amount;
+
+  // Ensure points don't go below 0
+  newPoints = Math.max(newPoints, 0);
+
+  // Update the points display
+  pointsElement.textContent = newPoints;
+}
+
+
+
+
+
+function useSpecificNumberPartTwo() {
+  console.log("Entering useSpecificNumberPartTwo");
+
+  var specificNumber = 20; // You can change this to any specific number you want
+  var attackElement = document.getElementById("attack");
+  console.log("Attack element found?", attackElement !== null);
+
+  if (attackElement) {
+    attackElement.textContent = "攻撃: " + specificNumber;
+  }
+  console.log("攻撃: " + specificNumber);
+
+  var logElement = document.getElementById("log");
+  console.log("Log element found?", logElement !== null);
+
+  if (logElement) {
+    var attackLogElement = document.createElement("p");
+    attackLogElement.textContent = "攻撃: " + specificNumber;
+    logElement.appendChild(attackLogElement);
+    console.log("Log entry added to DOM");
+  }
+
+  console.log("Sent attack value:", specificNumber);
+
+  // Send the attack value to the parent window
+  window.parent.postMessage(specificNumber, "*");
+
+  try {
+    showPopUp(specificNumber);
+    console.log("showPopUp called successfully");
+  } catch (error) {
+    console.error("Error in showPopUp:", error);
+  }
+
+  try {
+    addPoints(specificNumber);
+    console.log("addPoints called successfully");
+  } catch (error) {
+    console.error("Error in addPoints:", error);
+  }
+
+  console.log("Exiting useSpecificNumberPartTwo");
+}
+
+
+// Function to add points
+function addPoints(amount) {
+  var pointsElement = document.getElementById('points');
+  if (!pointsElement) {
+    console.error('Cannot add points: points element not found');
+    return;
+  }
+
+  var currentPoints = parseInt(pointsElement.textContent, 10);
+  if (isNaN(currentPoints)) {
+    console.error('Cannot add points: current points is not a valid number');
+    return;
+  }
+
+  var newPoints = currentPoints + amount;
+  pointsElement.textContent = newPoints;
+  console.log('Points added. New points:', newPoints);
+  checkPointsAndShowBlock();
+}
+
+function useSpecificNumber() {
+  console.log("Entering useSpecificNumber");
+
+  // Check if points are already at zero before proceeding
+  if (logPointsZero()) {
+    console.log("Attack disabled because points are already at zero.");
+    var attackValue = 0;
+    // Update the attack display
+    var attackElement = document.getElementById("attack");
+    if (attackElement) {
+      attackElement.textContent = "攻撃: " + attackValue;
+    }
+    console.log("攻撃: " + attackValue);
+
+    // Log the attack
+    var logElement = document.getElementById("log");
+    if (logElement) {
+      var attackLogElement = document.createElement("p");
+      attackLogElement.textContent = "攻撃: " + attackValue;
+      logElement.appendChild(attackLogElement);
+    }
+
+    // Send the attack value to the parent window
+    window.parent.postMessage(attackValue, "*");
+    console.log("Sent attack value:", attackValue);
+
+    console.log("Exiting useSpecificNumber due to points being zero");
+    return;
+  }
+
+  var specificNumber = 50; // You can change this to any specific number you want
+  var attackElement = document.getElementById("attack");
+  console.log("Attack element found?", attackElement !== null);
+
+  if (attackElement) {
+    attackElement.textContent = "攻撃: " + specificNumber;
+  }
+  console.log("攻撃: " + specificNumber);
+
+  var logElement = document.getElementById("log");
+  console.log("Log element found?", logElement !== null);
+
+  if (logElement) {
+    var attackLogElement = document.createElement("p");
+    attackLogElement.textContent = "攻撃: " + specificNumber;
+    logElement.appendChild(attackLogElement);
+    console.log("Log entry added to DOM");
+  }
+
+  console.log("Sent attack value:", specificNumber);
+
+  // Send the attack value to the parent window
+  window.parent.postMessage(specificNumber, "*");
+
+  try {
+    showPopUp(specificNumber);
+    console.log("showPopUp called successfully");
+  } catch (error) {
+    console.error("Error in showPopUp:", error);
+  }
+
+  try {
+    subtractPoints(specificNumber);
+    console.log("subtractPoints called successfully");
+  } catch (error) {
+    console.error("Error in subtractPoints:", error);
+  }
+
+  console.log("Exiting useSpecificNumber");
+}
+
+var nameElement = document.getElementById("name");
+var biographyElement = document.getElementById("biography");
+var statusElement = document.getElementById("status");
+
+nameElement.addEventListener("click", function() {
+  if (biographyVisible) {
+    biographyElement.style.display = "none";
+    biographyVisible = false;
+  } else {
+    biographyElement.style.display = "block";
+    biographyVisible = true;
+    readBiography();
+  }
+});
+
+function readBiography() {
+  var textToRead = biographyElement.textContent;
+  var speechUtterance = new SpeechSynthesisUtterance(textToRead);
+  speechUtterance.lang = "en-JP";
+  speechSynthesis.speak(speechUtterance);
+}
+
+
+
+
+
+
+// Function to check if points are already at zero
+function logPointsZero() {
+  // Get the points element
+  const pointsElement = document.getElementById('points');
+
+  // Check if the points element exists
+  if (pointsElement) {
+    // Convert the current points to a number
+    const currentPoints = parseInt(pointsElement.textContent, 10);
+
+    // Check if points are already zero
+    return currentPoints === 0;
+  } else {
+    console.error("Points element not found!");
+    return false;
+  }
+}
+
+
+
+function showImage(picture, displayTime) {
+  var pictureElement = document.getElementById("picture");
+
+  if (!pictureElement.dataset.originalSrc) {
+    pictureElement.dataset.originalSrc = pictureElement.src;
+  }
+
+  pictureElement.src = picture;
+
+  setTimeout(() => {
+    pictureElement.src = pictureElement.dataset.originalSrc; // Revert back to the original image source
+  }, displayTime);
+
+  // Add stop animation effect
+  pictureElement.addEventListener('click', function() {
+    pictureElement.src = pictureElement.dataset.originalSrc; // Revert back to the original image source
+  });
+}
+
+
+
+var lastTapTime = 0;
+var tapCount = 0;
+var picture = document.getElementById("picture");
+
+picture.addEventListener("touchend", function(event) {
+    var currentTime = new Date().getTime();
+    var timeSinceLastTap = currentTime - lastTapTime;
+
+    if (timeSinceLastTap < 300) {
+        tapCount++;
+
+        if (tapCount === 2) {
+            flipContent();
+            tapCount = 0; // Reset tap count
+        }
+    } else {
+        tapCount = 1;
+    }
+
+    lastTapTime = currentTime;
+});
+
+function flipContent() {
+    var contentToFlip = document.getElementById("picture");
+    var currentTransform = contentToFlip.style.transform;
+
+    if (currentTransform.includes("scaleX(-1)")) {
+        contentToFlip.style.transform = "scaleX(1)";
+    } else {
+        contentToFlip.style.transform = "scaleX(-1)";
+    }
+}
+
+function toggleWow() {
+  const wowDiv = document.getElementById('wow');
+
+  // Check if the element is currently hidden
+  if (wowDiv.style.display === 'none' || wowDiv.style.display === '') {
+    wowDiv.style.display = 'block'; // Show the div
+
+    // Set a timeout to hide the div after 3 seconds
+    setTimeout(() => {
+      wowDiv.style.display = 'none'; // Hide the div after 3 seconds
+    }, 3000);
+  }
+}
+
+
+
+    // Array of functions to execute
+    const functionsArray = [
+            function greet() {
+              generateRandomNumber();
+        console.log("Hello!");
+            },
+            function farewell() {
+              useSpecificNumberPartTwo();
+        console.log("Goodbye!");
+            },
+            function askHowAreYou() {
+              useSpecificNumber();
+        console.log("How are you?");
+            }
+        ];
+
+// Variable to track if the listener is activated
+let isListenerActivated = false;
+
+// Activate listener when the button is clicked
+document.getElementById('activateButton').addEventListener('click', () => {
+  if (!isListenerActivated) {
+    isListenerActivated = true;
+    console.log("Listener has been activated.");
+  } else {
+    console.log("Listener is already activated.");
+  }
+});
+
+// Deactivate listener when the button is clicked
+document.getElementById('deactivateButton').addEventListener('click', () => {
+  if (isListenerActivated) {
+    isListenerActivated = false;
+    console.log("Listener has been deactivated.");
+  } else {
+    console.log("Listener is already deactivated.");
+  }
+});
+
+// Listen for post messages
+window.addEventListener('message', (event) => {
+  // Check if the listener is activated
+  if (isListenerActivated) {
+    // Check if the message is "hurt"
+    if (event.data === "ouch!") {
+      executeRandomFunction(); // Call the random function
+    }
+  }
+});
+
+// Function to randomly execute a function from the array
+function executeRandomFunction() {
+  const randomIndex = Math.floor(Math.random() * functionsArray.length);
+  functionsArray[randomIndex](); // Call a random function
+}
+
+</script>
+</body>
+</html>
